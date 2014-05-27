@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from MyDocument import MyDocument
+import json
 
 
 tree = ET.parse('data/result_50.xml')
@@ -16,8 +17,12 @@ for document in root.iter('document'):
 
     print('================')
     print( len( doc.entities) )
-    for el in police:
+    # for el in police:
+    #     print(el.word)
+    for el in victim:
         print(el.word)
+
+    #json.dump(victim, "out.json")
 
 
 #     attribute = entity.find('attributes')
