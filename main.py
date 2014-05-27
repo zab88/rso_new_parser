@@ -1,9 +1,12 @@
 import xml.etree.ElementTree as ET
 from MyDocument import MyDocument
-import json
+import os
+import sys
 
 
-tree = ET.parse('data/result_50.xml')
+input_xml_path = sys.argv[1]
+#input_xml_path = 'data/result_50.xml'
+tree = ET.parse(input_xml_path)
 root = tree.getroot()
 
 all_documents = []
@@ -30,6 +33,8 @@ for document in root.iter('document'):
         out_file.write( str(el.entity_type) + '|' + el.id + "\n")
 
 out_file.close()
+
+print( os.path.dirname( __file__ ) + '/out/out.txt')
     #json.dump(victim, "out.json")
 
 
