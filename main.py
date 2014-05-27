@@ -8,6 +8,7 @@ root = tree.getroot()
 
 all_documents = []
 
+out_file = open('out/out.txt', 'w+')
 for document in root.iter('document'):
     doc = MyDocument(document)
     doc.analyseEntities()
@@ -15,13 +16,20 @@ for document in root.iter('document'):
     crime = doc.getCrimeList()
     victim = doc.getVictimList()
 
-    print('================')
-    print( len( doc.entities) )
-    # for el in police:
-    #     print(el.word)
-    for el in victim:
-        print(el.word)
+    #print('================')
+    #print( len( doc.entities) )
 
+    for el in police:
+        out_file.write( str(el.entity_type) + '|' + el.id + "\n")
+        #print(el.word)
+    for el in victim:
+        #print(el.word)
+        out_file.write( str(el.entity_type) + '|' + el.id + "\n")
+    for el in crime:
+        #print(el.word)
+        out_file.write( str(el.entity_type) + '|' + el.id + "\n")
+
+out_file.close()
     #json.dump(victim, "out.json")
 
 

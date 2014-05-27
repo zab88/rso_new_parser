@@ -11,9 +11,11 @@ class MyEntity(object):
 
     word = ''
     word_norm = ''
+    id = None
 
     def __init__(self, entity):
         self.entity = entity
+        self.id = self.entity.attrib['id'].encode('utf-8')
 
         # attribute = entity.find('attributes')
         self.word = entity.find('original')
