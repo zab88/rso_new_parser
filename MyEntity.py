@@ -53,6 +53,7 @@ class MyEntity(object):
     def setSlotName(self, slot_name):
         #print(slot_name)
         self.slot_name = slot_name
+        self._checkSlotName()
 
     def _checkPolice(self):
         #e_word = self.word.encode()
@@ -84,6 +85,7 @@ class MyEntity(object):
             self.setEntityType(self.TYPE_VICTIM)
         elif self.slot_name in self.police_slot_names:
             self.setEntityType(self.TYPE_POLICE)
+        #print(self.entity_type, self.slot_name)
 
     def _checkSynonym(self):
         pass
