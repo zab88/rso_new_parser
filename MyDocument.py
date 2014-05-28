@@ -40,7 +40,7 @@ class MyDocument(object):
                 slot_name = self.findSlotName(new_entity.word_offset, new_entity.word_length)
                 if slot_name is not None:
                     new_entity.setSlotName(slot_name)
-                    print(slot_name)
+                    #print(slot_name)
 
                 self.entities.append( new_entity )
                 self.all_persons[entity.attrib['id']] = original.text
