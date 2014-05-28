@@ -7,11 +7,17 @@ class PersonDict(object):
     victim_synonym = ['ПОТЕРПЕВШИЙ', "ПОТЕРПЕВШАЯ", "ПОТЕРПЕВШИЕ"]
 
     police_relations = ['ЗАДЕРЖАЛИ', 'ПРИБЫВШИЕ', 'РАСКРЫТЫ', 'ЗАДЕРЖАЛ', 'ЭКСТРЕННО', 'ПОЛИЦИИ' 'СОТРУДНИКИ', 'ЛИКВИДИРОВАЛИ']
+    crime_relations = ['УБИТЬ', "УКРАСТЬ"]
+    victim_relations = []
 
     def isCrime(self, word, relations = []):
         for w in self.crime_synonym:
             if w == word:
                 return True
+        for relation in relations:
+            for crime_relation in self.crime_relations:
+                if relation == crime_relation:
+                    return True
         return False
 
     def isPolice(self, word, relations = []):
@@ -28,7 +34,12 @@ class PersonDict(object):
         for w in self.victim_synonym:
             if w == word:
                 return True
+        for relation in relations:
+            for victim_relation in self.victim_relations:
+                if relation == victim_relation:
+                    return True
         return False
+
 
     def getCrimeSynonyms(self):
         return self.crime_synonym
