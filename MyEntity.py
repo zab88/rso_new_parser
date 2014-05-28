@@ -4,6 +4,7 @@ from PersonDict import PersonDict
 class MyEntity(object):
     entity = None
     entity_type = 0 # 1-crime, 2-police, 3-victim, 0-undefined
+    slot_name = None
 
     TYPE_UNDEFINED = 0
     TYPE_CRIME = 1
@@ -12,8 +13,14 @@ class MyEntity(object):
 
     word = ''
     word_norm = ''
+    word_offset = ''
+    word_length = ''
     id = None
     relation_words = []
+
+    crime_slot_names = ['person_object']
+    victim_slot_names = ['person_subject']
+    police_slot_names = ['person_subject']
 
     def __init__(self, entity):
         self.entity = entity
@@ -24,8 +31,12 @@ class MyEntity(object):
         self.word = entity.find('original')
         self.word = self.word.text.encode('utf-8')
 
-        self.word_norm = entity.find('name')
-        self.word_norm = self.word_norm.text.encode('utf-8')
+        word_norm = entity.find('name')
+        self.word_norm = word_norm.text.encode('utf-8')
+        #set offset and length
+        if word_norm.attrib.get('offset') is not None:
+            self.word_offset = word_norm.attrib['offset']
+            self.word_length = word_norm.attrib['length']
         # grammar = entity.find('grammar')
 
         relations_xml = entity.findall('relationship')
@@ -37,6 +48,10 @@ class MyEntity(object):
         self._checkPolice()
         self._checkVictim()
         self._checkCrime()
+
+    def setSlotName(self, slot_name):
+        #print(slot_name)
+        self.slot_name = slot_name
 
     def _checkPolice(self):
         #e_word = self.word.encode()
@@ -59,8 +74,21 @@ class MyEntity(object):
         if True == pd.isCrime(self.word_norm, self.relation_words):
             self.entity_type = self.TYPE_CRIME
 
+    def _checkSlotName(self):
+        if self.slot_name is None: return
+
+        if self.slot_name in self.crime_slot_names:
+            self.setEntityType(self.TYPE_CRIME)
+        elif self.slot_name in self.victim_slot_names:
+            self.setEntityType(self.TYPE_VICTIM)
+        elif self.slot_name in self.police_slot_names:
+            self.setEntityType(self.TYPE_POLICE)
+
     def _checkSynonym(self):
         pass
 
     def _checkRelationship(self):
         pass
+
+    def setEntityType(self, type):
+        self.entity_type = type
