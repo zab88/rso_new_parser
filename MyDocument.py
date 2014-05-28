@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from MyEntity import MyEntity
+import itertools
 
 class MyDocument(object):
 
@@ -31,31 +32,20 @@ class MyDocument(object):
             #     attribute.text = ''
 
             # print(attribute.text)
-            if attribute is not None and 'Semantic=Person;' in attribute.text:
+            if (attribute is not None and 'Semantic=Person;' in attribute.text) \
+                or ('Person:' in entity.attrib['type']) \
+                or grammar.attrib['SpeechPart'] == 'Pronoun':
+
                 new_entity = MyEntity(entity)
                 slot_name = self.findSlotName(new_entity.word_offset, new_entity.word_length)
                 if slot_name is not None:
                     new_entity.setSlotName(slot_name)
+                    print(slot_name)
 
                 self.entities.append( new_entity )
                 self.all_persons[entity.attrib['id']] = original.text
-            elif 'Person:' in entity.attrib['type']:
-                new_entity = MyEntity(entity)
-                slot_name = self.findSlotName(new_entity.word_offset, new_entity.word_length)
-                if slot_name is not None:
-                    new_entity.setSlotName(slot_name)
 
-                self.entities.append( new_entity )
-                self.all_persons[entity.attrib['id']] = original.text
-            elif grammar.attrib['SpeechPart'] == 'Pronoun':
-                #print(original.text)
-                new_entity = MyEntity(entity)
-                slot_name = self.findSlotName(new_entity.word_offset, new_entity.word_length)
-                if slot_name is not None:
-                    new_entity.setSlotName(slot_name)
 
-                self.entities.append( new_entity )
-                self.all_persons[entity.attrib['id']] = original.text
 
         #print(len(self.entities))
         #print(self.all_persons)
@@ -66,7 +56,13 @@ class MyDocument(object):
         #ok we load all entities, let's analyse them
 
     def findSlotName(self, offset, length):
-        for slot in self.all_slots:
+        if offset == '': return None
+        # print(offset, length)
+
+        all_slots_backup, self.all_slots = itertools.tee(self.all_slots)
+        for slot in all_slots_backup:
+            # print(offset, length, slot.attrib['offset'], slot.attrib['length'])
+
             if slot.attrib['offset'] == offset and slot.attrib['length'] == length:
                 return slot.attrib['name']
         return None

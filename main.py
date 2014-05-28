@@ -15,6 +15,7 @@ out_file = open('out/out.txt', 'w+')
 for document in root.iter('document'):
     doc = MyDocument(document)
     doc.analyseEntities()
+
     police = doc.getPoliceList()
     crime = doc.getCrimeList()
     victim = doc.getVictimList()

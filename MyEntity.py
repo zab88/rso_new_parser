@@ -18,9 +18,9 @@ class MyEntity(object):
     id = None
     relation_words = []
 
-    crime_slot_names = ['person_object']
+    crime_slot_names = ['person_object', 'Object1', 'Obj1', 'object1']
     victim_slot_names = ['person_subject']
-    police_slot_names = ['person_subject']
+    police_slot_names = []
 
     def __init__(self, entity):
         self.entity = entity
@@ -37,6 +37,7 @@ class MyEntity(object):
         if word_norm.attrib.get('offset') is not None:
             self.word_offset = word_norm.attrib['offset']
             self.word_length = word_norm.attrib['length']
+            #print(self.word_offset)
         # grammar = entity.find('grammar')
 
         relations_xml = entity.findall('relationship')
