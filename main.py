@@ -18,6 +18,7 @@ for document in root.iter('document'):
     police = doc.getPoliceList()
     crime = doc.getCrimeList()
     victim = doc.getVictimList()
+    undefined = doc.getUndefinedList()
 
     #print('================')
     #print( len( doc.entities) )
@@ -32,24 +33,10 @@ for document in root.iter('document'):
         #print(el.word)
         out_file.write( str(el.entity_type) + '|' + el.id + "\n")
 
+    for el in undefined:
+        #print(el.word)
+        out_file.write( str(el.entity_type) + '|' + el.id + "\n")
+
 out_file.close()
 
 print( os.path.dirname( __file__ ) + '/out/out.txt')
-    #json.dump(victim, "out.json")
-
-
-#     attribute = entity.find('attributes')
-#     original = entity.find('original')
-#     if attribute is None:
-#         continue
-#
-#     # print(attribute.text)
-#     if 'Semantic=Person;' in attribute.text:
-#         # print entity.attrib['id']
-#         # print(attribute.text)
-#         all_persons[entity.attrib['id']] = original.text
-#     elif 'Person:' in entity.attrib['type']:
-#         all_persons[entity.attrib['id']] = original.text
-#
-# for p in all_persons:
-#     print(p)

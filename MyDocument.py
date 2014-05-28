@@ -61,3 +61,7 @@ class MyDocument(object):
     def getVictimList(self):
         police_list = [e for e in self.entities if e.entity_type==e.TYPE_VICTIM]
         return police_list
+
+    def getUndefinedList(self):
+        undefined_list = [e for e in self.entities if e.entity_type==e.TYPE_UNDEFINED]
+        return undefined_list

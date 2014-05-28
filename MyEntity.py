@@ -3,8 +3,9 @@ from PersonDict import PersonDict
 
 class MyEntity(object):
     entity = None
-    entity_type = 1 # 1-crime, 2-police, 3-victim
+    entity_type = 0 # 1-crime, 2-police, 3-victim, 0-undefined
 
+    TYPE_UNDEFINED = 0
     TYPE_CRIME = 1
     TYPE_POLICE = 2
     TYPE_VICTIM = 3
@@ -16,6 +17,7 @@ class MyEntity(object):
 
     def __init__(self, entity):
         self.entity = entity
+        self.entity_type = self.TYPE_UNDEFINED
         self.id = self.entity.attrib['id'].encode('utf-8')
 
         # attribute = entity.find('attributes')
@@ -34,6 +36,7 @@ class MyEntity(object):
 
         self._checkPolice()
         self._checkVictim()
+        self._checkCrime()
 
     def _checkPolice(self):
         #e_word = self.word.encode()
@@ -41,7 +44,8 @@ class MyEntity(object):
             self.entity_type = self.TYPE_POLICE
         else:
             pd = PersonDict()
-            if pd.isPolice(self.word_norm, self.relation_words) == True:
+            # if pd.isPolice(self.word_norm, self.relation_words) == True:
+            if pd.isPolice(self.word_norm) == True:
                 self.entity_type = self.TYPE_POLICE
 
     def _checkVictim(self):
@@ -49,6 +53,11 @@ class MyEntity(object):
         #print(self.word_norm)
         if True == pd.isVictim(self.word_norm, self.relation_words):
             self.entity_type = self.TYPE_VICTIM
+
+    def _checkCrime(self):
+        pd = PersonDict()
+        if True == pd.isCrime(self.word_norm, self.relation_words):
+            self.entity_type = self.TYPE_CRIME
 
     def _checkSynonym(self):
         pass
