@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
 from MyDocument import MyDocument
 import os
@@ -13,6 +14,15 @@ all_documents = []
 
 out_file = open('out/out.txt', 'w+')
 for document in root.iter('document'):
+    #deleting unnecessary frames
+    for frames in document.findall('frames'):
+        for frame in frames.findall('frame'):
+            class_name = frame.attrib['class'].encode('windows-1251')#.decode('utf-8')
+            #print(class_name)
+            if class_name not in ['crime', 'объект: противозаконная деятельность',
+                                  'объект: конфликты', 'личное взаимодействие: физическое насилие']:
+                frames.remove(frame)
+
     doc = MyDocument(document)
     doc.analyseEntities()
 
