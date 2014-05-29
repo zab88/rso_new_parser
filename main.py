@@ -17,10 +17,12 @@ for document in root.iter('document'):
     #deleting unnecessary frames
     for frames in document.findall('frames'):
         for frame in frames.findall('frame'):
-            class_name = frame.attrib['class'].encode('windows-1251')#.decode('utf-8')
+            #print(frame.attrib['class'])
+            #class_name = frame.attrib['class'].encode('windows-1251')#.encode('utf-8')
+            class_name = frame.attrib['class']
             #print(class_name)
-            if class_name not in ['crime', 'объект: противозаконная деятельность', 'события: противозаконная деятельность',
-                                  'объект: конфликты', 'личное взаимодействие: физическое насилие']:
+            if class_name not in ['crime', 'объект: противозаконная деятельность'.decode('utf-8'), 'события: противозаконная деятельность'.decode('utf-8'),
+                                  'объект: конфликты'.decode('utf-8'), 'личное взаимодействие: физическое насилие'.decode('utf-8')]:
                 frames.remove(frame)
 
     doc = MyDocument(document)

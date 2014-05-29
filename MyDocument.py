@@ -60,6 +60,7 @@ class MyDocument(object):
         # print(offset, length)
 
         all_slots_backup, self.all_slots = itertools.tee(self.all_slots)
+        # print(len(list(all_slots_backup)))
         for slot in all_slots_backup:
             # print(offset, length, slot.attrib['offset'], slot.attrib['length'])
 

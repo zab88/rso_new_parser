@@ -37,7 +37,9 @@ class MyEntity(object):
         if word_norm.attrib.get('offset') is not None:
             self.word_offset = word_norm.attrib['offset']
             self.word_length = word_norm.attrib['length']
-            #print(self.word_offset)
+        else:
+            self.word_offset = self.entity.attrib['offset']
+            self.word_length = self.entity.attrib['length']
         # grammar = entity.find('grammar')
 
         relations_xml = entity.findall('relationship')
