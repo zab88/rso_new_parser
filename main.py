@@ -19,7 +19,7 @@ for document in root.iter('document'):
         for frame in frames.findall('frame'):
             class_name = frame.attrib['class'].encode('windows-1251')#.decode('utf-8')
             #print(class_name)
-            if class_name not in ['crime', 'объект: противозаконная деятельность',
+            if class_name not in ['crime', 'объект: противозаконная деятельность', 'события: противозаконная деятельность',
                                   'объект: конфликты', 'личное взаимодействие: физическое насилие']:
                 frames.remove(frame)
 
