@@ -19,7 +19,7 @@ class MyEntity(object):
     relation_words = []
 
     crime_slot_names = ['person_object', 'Object1', 'Obj1', 'object1']
-    victim_slot_names = ['person_subject']
+    victim_slot_names = ['person_subject', 'Object2']
     police_slot_names = []
 
     def __init__(self, entity):
@@ -45,6 +45,7 @@ class MyEntity(object):
         relations_xml = entity.findall('relationship')
         for r_xml in relations_xml:
             r_word = r_xml.attrib['entity']
+            # print(self.word + '--')
             # print(r_word)
             self.relation_words.append(r_word.encode('utf-8'))
 
